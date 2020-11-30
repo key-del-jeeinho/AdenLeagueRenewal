@@ -4,8 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class GameConfiguration {
+public class GameConfiguration implements Serializable {
     private static final long serialVersionUID = 1L; //직렬화 명시
 
     @Getter @Setter

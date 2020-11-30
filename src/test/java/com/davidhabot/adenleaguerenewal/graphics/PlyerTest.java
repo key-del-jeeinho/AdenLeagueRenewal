@@ -7,20 +7,19 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-public class KeyboardTest {
-
+public class PlyerTest {
     private Player p = new Player(null, 100, 50, 1.0,
             KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SHIFT,
             KeyEvent.VK_Q,KeyEvent.VK_E, KeyEvent.VK_R,
             KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3
     );
     @Test
-    public void TestPlayer() {
+    public void TestPlayerKey() {
         p.gameKeyPressed(KeyEvent.VK_W);
     }
 
     @Test
-    public void TestKeyboard() {
+    public void TestPlayerKeys() {
         Random r = new Random();
         for(int i = 0; i < 100; i++) {
             int key;

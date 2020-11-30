@@ -1,8 +1,6 @@
 package com.davidhabot.adenleaguerenewal.game;
 
 
-import lombok.Getter;
-
 public class Game implements Runnable{
 
     public final static GameConfiguration configuration = new GameConfiguration(300, 9/16.0, 3, "AdenLeague"); //게임에 대한 초기설정
@@ -30,8 +28,7 @@ public class Game implements Runnable{
             lastTime = now; //lastTime 을 현재로 갱신한다
             //1frame 마다 게임을 업데이트시킨다.
             while (delta >= 1) {
-                //for(Updatable updatable : updatables)
-                //    updatable.update();
+                UpdateManager.updateAll();//스태틱메서드 _update 를 통해서 모든 정보를 업데이트한다.
                 updates++;
                 delta--;
             }
@@ -61,6 +58,5 @@ public class Game implements Runnable{
 
     private void printTitle(String timerInfo) {
         Game.data.getFrame().setTitle(Game.configuration.getTitle() + timerInfo);
-        System.out.println(timerInfo);
     }
 }

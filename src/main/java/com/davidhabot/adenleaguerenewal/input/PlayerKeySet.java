@@ -8,7 +8,7 @@ public enum PlayerKeySet {
     ITEM_1(8), ITEM_2(9), ITEM_3(10);
 
     @Getter
-    private int idx;
+    private final int idx;
 
     PlayerKeySet(int idx) {
         this.idx = idx;
