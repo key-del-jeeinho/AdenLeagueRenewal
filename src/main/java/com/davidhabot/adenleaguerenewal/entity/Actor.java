@@ -1,5 +1,6 @@
 package com.davidhabot.adenleaguerenewal.entity;
 
+import com.davidhabot.adenleaguerenewal.graphics.Sprite;
 import com.davidhabot.adenleaguerenewal.input.GameKeyListener;
 import com.davidhabot.adenleaguerenewal.input.KeyBoardManager;
 import lombok.Getter;

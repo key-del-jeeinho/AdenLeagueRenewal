@@ -1,6 +1,7 @@
 package com.davidhabot.adenleaguerenewal.game;
 
 import com.davidhabot.adenleaguerenewal.entity.Actor;
+import com.davidhabot.adenleaguerenewal.graphics.ScreenController;
 import com.davidhabot.adenleaguerenewal.level.Level;
 import lombok.Getter;
 
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class GameData implements Serializable {
     private static final long serialVersionUID = 1L; //직렬화 명시
-    //@Getter
-    //private ScreenController screenControl; //BufferedImage 를 통한 화면 출력 컨트롤러
+    @Getter
+    private ScreenController screenControl; //BufferedImage 를 통한 화면 출력 컨트롤러
     @Getter
     private JFrame frame; //Image 에 텍스트 등의 부가 정보를 넣기 위해 생성
     @Getter

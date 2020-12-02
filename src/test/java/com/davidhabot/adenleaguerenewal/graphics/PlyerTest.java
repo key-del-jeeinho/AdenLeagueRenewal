@@ -21,29 +21,31 @@ public class PlyerTest {
     @Test
     public void TestPlayerKeys() {
         Random r = new Random();
-        for(int i = 0; i < 100; i++) {
-            int key;
-            switch (r.nextInt(4)) {
-                case 0:
-                    key = KeyEvent.VK_W;
-                    break;
-                case 1:
-                    key = KeyEvent.VK_S;
-                    break;
-                case 2:
-                    key = KeyEvent.VK_A;
-                    break;
-                case 3:
-                    key = KeyEvent.VK_D;
-                    break;
-                default:
-                    key = KeyEvent.VK_Q;
-                    break;
-            }
-            KeyEvent keyEvent = new KeyEvent(new JFrame(), key, 0, KeyEvent.VK_W, KeyEvent.VK_W, 'w');
-            p.getKb().keyPressed(keyEvent);
-            p.update();
-            p.getKb().keyReleased(keyEvent);
-        }
+        TestModule.testFPS(
+                () -> {
+                    int key;
+                    switch (r.nextInt(4)) {
+                        case 0:
+                            key = KeyEvent.VK_W;
+                            break;
+                        case 1:
+                            key = KeyEvent.VK_S;
+                            break;
+                        case 2:
+                            key = KeyEvent.VK_A;
+                            break;
+                        case 3:
+                            key = KeyEvent.VK_D;
+                            break;
+                        default:
+                            key = KeyEvent.VK_Q;
+                            break;
+                    }
+                    KeyEvent keyEvent = new KeyEvent(new JFrame(), key, 0, KeyEvent.VK_W, KeyEvent.VK_W, 'w');
+                    p.getKb().keyPressed(keyEvent);
+                    p.update();
+                    p.getKb().keyReleased(keyEvent);
+                }
+        );
     }
 }

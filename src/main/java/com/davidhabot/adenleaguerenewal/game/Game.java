@@ -1,6 +1,8 @@
 package com.davidhabot.adenleaguerenewal.game;
 
 
+import com.davidhabot.adenleaguerenewal.graphics.Renderable;
+
 public class Game implements Runnable{
 
     public final static GameConfiguration configuration = new GameConfiguration(300, 9/16.0, 3, "AdenLeague"); //게임에 대한 초기설정
@@ -32,6 +34,7 @@ public class Game implements Runnable{
                 updates++;
                 delta--;
             }
+            data.getScreenControl().getScreen().renderAll();
             frames++;
             checkTimer();
         }

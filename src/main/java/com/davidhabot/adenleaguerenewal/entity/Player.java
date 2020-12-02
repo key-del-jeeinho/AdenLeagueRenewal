@@ -2,6 +2,7 @@ package com.davidhabot.adenleaguerenewal.entity;
 
 import com.davidhabot.adenleaguerenewal.game.Updatable;
 import com.davidhabot.adenleaguerenewal.game.UpdateManager;
+import com.davidhabot.adenleaguerenewal.graphics.Sprite;
 import com.davidhabot.adenleaguerenewal.input.GameKeyListener;
 import com.davidhabot.adenleaguerenewal.input.KeyBoardManager;
 import com.davidhabot.adenleaguerenewal.input.PlayerKeySet;
