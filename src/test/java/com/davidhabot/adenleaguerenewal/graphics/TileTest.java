@@ -12,13 +12,6 @@ public class TileTest {
     public void testLevel() {
         ImageLevel imgLevel = new ImageLevel("/texture/level.png");
         imgLevel.setOffset(200, 250);
-        Testable testable = () -> {
-            try {
-                imgLevel.render(new Screen(500, 500));
-            } catch (WrongCoordinateException e) {
-                e.printStackTrace();
-            }
-        };
 
         //람다식을 활용해 테스트용 Testable 인스턴스를 생성하여 testFPS 로 테스트한다
         TestModule.testFPS(
@@ -35,9 +28,10 @@ public class TileTest {
 
     @Test
     public void testTile() {
-        int[] pixel = tileLoader.getDirt().getSprite().getPixels();
-        int width = tileLoader.getDirt().getSprite().getWidth();
-        int height = tileLoader.getDirt().getSprite().getHeight();
+        Sprite testSpr = tileLoader.getVoidTile().getSprite();
+        int[] pixel = testSpr.getPixels();
+        int width = testSpr.getWidth();
+        int height = testSpr.getHeight();
 
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {

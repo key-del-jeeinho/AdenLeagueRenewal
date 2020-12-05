@@ -4,10 +4,11 @@ import com.davidhabot.adenleaguerenewal.entity.Player;
 import org.junit.Test;
 
 import javax.swing.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-public class PlyerTest {
+public class PlayerTest {
     private Player p = new Player(null, 100, 50, 1.0,
             KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SHIFT,
             KeyEvent.VK_Q,KeyEvent.VK_E, KeyEvent.VK_R,
@@ -41,11 +42,15 @@ public class PlyerTest {
                             key = KeyEvent.VK_Q;
                             break;
                     }
-                    KeyEvent keyEvent = new KeyEvent(new JFrame(), key, 0, KeyEvent.VK_W, KeyEvent.VK_W, 'w');
+                    KeyEvent keyEvent = new KeyEvent(new JFrame(), key, 0, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK | InputEvent.META_MASK | InputEvent.BUTTON1_MASK | InputEvent.SHIFT_DOWN_MASK, KeyEvent.VK_W, 'w');
                     p.getKb().keyPressed(keyEvent);
                     p.update();
                     p.getKb().keyReleased(keyEvent);
                 }
         );
+    }
+
+    @Test
+    public void renderPlayer() {
     }
 }

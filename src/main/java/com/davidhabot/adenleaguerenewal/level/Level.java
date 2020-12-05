@@ -1,5 +1,6 @@
 package com.davidhabot.adenleaguerenewal.level;
 
+import com.davidhabot.adenleaguerenewal.game.Game;
 import com.davidhabot.adenleaguerenewal.game.Updatable;
 import com.davidhabot.adenleaguerenewal.graphics.Renderable;
 import com.davidhabot.adenleaguerenewal.level.tile.Tile;
@@ -17,6 +18,7 @@ public abstract class Level implements Renderable, Updatable {
     private int width, height;
 
     private Level(int x, int y) {
+        Renderable.renderables.add(this);
         tileWidth = 16;
         tileHeight = 16;
         this.x = x;
@@ -36,6 +38,18 @@ public abstract class Level implements Renderable, Updatable {
         tileWidth = getTile(0, 0).getSprite().getWidth();
         tileHeight = getTile(0, 0).getSprite().getWidth();
         generateLevel();
+    }
+
+    @Override
+    public void update() {
+        try {
+            if (Game.data.getPlayer() == null) {
+                throw new GameDataNotInitializeException("게임 데이터 - 플레이어의 정보가 null입니다!");
+            }
+        }catch (GameDataNotInitializeException e) {
+            e.printStackTrace();
+        }
+        setOffset(Game.data.getPlayer().getX(), Game.data.getPlayer().getY());
     }
 
     protected abstract void loadLevel(String path);

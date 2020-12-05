@@ -1,6 +1,5 @@
 package com.davidhabot.adenleaguerenewal.graphics;
 
-import com.davidhabot.adenleaguerenewal.game.Updatable;
 import org.junit.Test;
 
 public class ScreenRenderTest {

@@ -16,7 +16,7 @@ public class UpdateManagerTest {
         UpdateManager.addUpdatable(updatable);
         UpdateManager.addUpdatable(updatable3);
         UpdateManager.updateAll();
-        mng.addUpdatable(updatable4);
-        UpdateManager.updateAll();
+        UpdateManager.addUpdatable(updatable4);
+        TestModule.testFPS(UpdateManager::updateAll);
     }
 }

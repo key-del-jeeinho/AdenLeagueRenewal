@@ -1,10 +1,13 @@
 package com.davidhabot.adenleaguerenewal.graphics;
 
+import java.awt.*;
+
 public class SpriteLoader {
     public SpriteSheet tile_naturalA;
     public SpriteSheet character_player_move;
 
-    public Sprite voidTile, grass, flowerA, flowerB, rock, stone, stone_jewel, oak, oak_hole, dirt, water;
+    public Sprite voidTile, grass, flowerA, flowerB, rock, stone, stone_jewel, oak, oak_hole, dirt, water
+            , player;
 
     public SpriteLoader() {
         loadSheet();
@@ -17,7 +20,7 @@ public class SpriteLoader {
     }
 
     private void loadSprite() {
-        voidTile = new Sprite(16, 0x1B87E0);
+        voidTile = new Sprite(16, new Color(0x1B, 0x87, 0xE0));
 
         grass = new Sprite(16, 0, 0, tile_naturalA);
         flowerA = new Sprite(16, 1, 0, tile_naturalA);
@@ -32,5 +35,7 @@ public class SpriteLoader {
         dirt = new Sprite(16, 2, 2, tile_naturalA);
 
         water = new Sprite(16, 0, 3, tile_naturalA);
+
+        player = new Sprite(32, 2, 0, character_player_move);
     }
 }

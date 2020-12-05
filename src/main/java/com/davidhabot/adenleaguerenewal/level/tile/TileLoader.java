@@ -37,10 +37,11 @@ public class TileLoader {
     //TODO 같은 ID를 가지고있는 타일에 대한 처리 필요 ex. flower => 고유식별자 제작 고려
     //getTile() - 로딩된 타일중에서 해당 타입의 타일을 불러온다
     public static Tile getTile(TileType type) {
-        for(Tile tile : tiles)
-            if(tile.getId() == type.getId()) {
+        for(Tile tile : tiles) {
+            if (tile.getId() == type.getId()) {
                 return tile;
             }
+        }
         throw new NullPointerException();
     }
 }

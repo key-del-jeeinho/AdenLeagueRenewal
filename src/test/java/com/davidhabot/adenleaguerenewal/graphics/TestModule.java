@@ -1,8 +1,5 @@
 package com.davidhabot.adenleaguerenewal.graphics;
 
-import com.davidhabot.adenleaguerenewal.game.UpdateManager;
-import org.junit.Test;
-
 public class TestModule {
     private static long lastTime = System.nanoTime(); // lastTime 이란 변수를 현재 시간(단위 : nano)으로 초기화
     private static long timer = System.currentTimeMillis(); //timer 이란 변수를 현재 시간(단위 : milli)으로 초기화

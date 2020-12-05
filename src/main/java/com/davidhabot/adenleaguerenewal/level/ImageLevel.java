@@ -29,8 +29,9 @@ public class ImageLevel extends Level {
             super.setHeight(height);
             level = new int[width * height];
             img.getRGB(0, 0, width, height, level, 0, width);
-            //for(int i = 0; i < level.length; i++)
-            //    level[i] = 0xFFFFFF & level[i];
+            System.out.println("레벨 로딩중... (1/2)");
+            for(int i = 0; i < level.length; i++)
+                level[i] = 0xFFFFFF & level[i];
             System.out.println("레벨파일 로딩성공.");
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,17 +45,11 @@ public class ImageLevel extends Level {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
     public void render(@NonNull Screen screen) throws WrongCoordinateException {
         int posAX = (super.x - (screen.getWidth()/2)); //해당 좌표를 중심으로하는 스크린의 좌측 상단의 X 좌표
         int posAY = (super.y - (screen.getHeight()/2)); //해당 좌표를 중심으로 하는 스크린 좌측 상단의 Y 좌표
-        int posBX = (super.x + (screen.getWidth()/2)); //해당 좌표를 중심으로하는 스크린의 좌측 상단의 X 좌표
-        int posBY = (super.y + (screen.getHeight()/2)); //해당 좌표를 중심으로 하는 스크린 좌측 상단의 Y 좌표
-
+        //int posBX = (super.x + (screen.getWidth()/2)); //해당 좌표를 중심으로하는 스크린의 우측 하단의 X 좌표
+        //int posBY = (super.y + (screen.getHeight()/2)); //해당 좌표를 중심으로 하는 스크린 우측 하단의 Y 좌표
 
         if(super.x < 0 && super.y < 0) //맵 중앙의 좌표가 0 미만(음수)일경우 = 플레이어가 맵 밖으로 벗어났을경우
             throw new WrongCoordinateException("맵의 중앙좌표가 음수입니다!"); //좌표오류 예외를 던져 핸들링을 호출 클래스에 위임한다
@@ -63,9 +58,11 @@ public class ImageLevel extends Level {
             for(int x = 0; x < screen.getWidth(); x++) {
                 /*getTile 메서드로 타일 좌표를 넘겨 타일을 가져온뒤 실제좌표값을 타일의 크기로 나누어 나온 나머지
                 즉, 실제로 해당 스크린 픽셀에 그려질 타일의 한 픽셀의 색상을 가져와 스크린에 차례차례 저장한다*/
-                screen.getScreen()[x + y * screen.getHeight()] =
-                        getTile((posAX + x)/tileWidth+1,(posAY + y)/tileHeight+1).getSprite().getPixels()
-                                [(((x + posAX) % 16 + 16) % 16) + (((y + posAY) % 16 + 16) % 16) * tileHeight];
+                int xPos = (posAX + x)/tileWidth > 0 ? (posAX + x)/tileWidth+1 : (posAX + x)/tileWidth-1;
+                int yPos = (posAY + y)/tileHeight > 0 ? (posAY + y)/tileHeight+1 : (posAY + y)/tileHeight-1;
+                int tile = getTile(xPos, yPos).getSprite().getPixels()
+                        [(((x + posAX) % 16 + 16) % 16) + (((y + posAY) % 16 + 16) % 16) * tileHeight];
+                screen.getScreen()[x + y * screen.getWidth()] = (0xFFFFFF & tile);
             }
         }
 
@@ -73,13 +70,12 @@ public class ImageLevel extends Level {
 
     //해당 맵의 y행 x열에 있는 타일을 불러온다 만약 타일을 찾지 못할경우 void 타일을 리턴한다
     public Tile getTile(int x, int y) {
-        if(x > 0 && y > 0) { //좌표가 올바를 경우에만 타일을 검사하고, 그렇지 않을경우(좌표가 음수일경우) VoidTile 을 반환한다
+        if(x > 0 && y > 0 && x < getWidth() && y < getHeight()) { //좌표가 올바를 경우에만 타일을 검사하고, 그렇지 않을경우(좌표가 음수일경우) VoidTile 을 반환한다
             for(Tile tile : TileLoader.getTiles()) { //게임내 존재하는 모든 타일을 타일로더에서 불러와 타일에 집어넣는다
                 if ((level[x + y * getWidth()]) == tile.getColor()) { //게임 맵에서 타일 식별용으로 저장된 색상을 가져와 타일의 식별색과 비교한다
                     return tile;//만약 해당 좌표에 있는 식별색이 해당 타일의 식별색과 같다면 해당 타일을 반환한다
                 }
-            }
-        }
-        return TileLoader.getTile(TileType.VOID);//식별색을 인식하지 못하거나 좌표가 올바르지 않는등의 예외상황에는 VoidTile 을 반환한다.
+            }return TileLoader.getTile(TileType.GRASS);
+        } else return TileLoader.getTile(TileType.VOID);//식별색을 인식하지 못하거나 좌표가 올바르지 않는등의 예외상황에는 VoidTile 을 반환한다.
     }
 }
