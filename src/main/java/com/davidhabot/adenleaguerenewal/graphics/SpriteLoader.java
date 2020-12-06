@@ -5,9 +5,21 @@ import java.awt.*;
 public class SpriteLoader {
     public SpriteSheet tile_naturalA;
     public SpriteSheet character_player_move;
+    public SpriteSheet entity_shadow;
 
-    public Sprite voidTile, grass, flowerA, flowerB, rock, stone, stone_jewel, oak, oak_hole, dirt, water
-            , player;
+    public Sprite voidTile;
+    public Sprite grass;
+    public Sprite flowerA;
+    public Sprite flowerB;
+    public Sprite rock;
+    public Sprite stone;
+    public Sprite stone_jewel;
+    public Sprite oak;
+    public Sprite oak_hole;
+    public Sprite dirt;
+    public Sprite water;
+    public Sprite shadow;
+    public Sprite[] player;
 
     public SpriteLoader() {
         loadSheet();
@@ -16,7 +28,8 @@ public class SpriteLoader {
 
     public void loadSheet() {
         tile_naturalA = new SpriteSheet("/texture/spritesheet.png", 16, 16, 16);
-        character_player_move= new SpriteSheet("/texture/character_player.png", 32, 3, 3);
+        character_player_move= new SpriteSheet("/texture/character_player.png", 32, 4, 3);
+        entity_shadow= new SpriteSheet("/texture/shadow.png", 16, 2, 1);
     }
 
     private void loadSprite() {
@@ -36,6 +49,22 @@ public class SpriteLoader {
 
         water = new Sprite(16, 0, 3, tile_naturalA);
 
-        player = new Sprite(32, 2, 0, character_player_move);
+        //TODO 2020-12-06 09:12 AM | for 문을 통해서 자동화 | DavidHabot
+        player = new Sprite[]{
+                new Sprite(32, 0, 0, character_player_move),
+                new Sprite(32, 1, 0, character_player_move),
+                new Sprite(32, 2, 0, character_player_move),
+                new Sprite(32, 3, 0, character_player_move),
+                new Sprite(32, 0, 1, character_player_move),
+                new Sprite(32, 0, 2, character_player_move),
+                new Sprite(32, 1, 1, character_player_move),
+                new Sprite(32, 1, 2, character_player_move),
+                new Sprite(32, 2, 1, character_player_move),
+                new Sprite(32, 2, 2, character_player_move),
+                new Sprite(32, 3, 1, character_player_move),
+                new Sprite(32, 3, 2, character_player_move)
+        };
+
+        shadow = new Sprite(16, 0, 0, entity_shadow);
     }
 }

@@ -1,5 +1,8 @@
-package com.davidhabot.adenleaguerenewal.entity;
+package com.davidhabot.adenleaguerenewal.entity.entities;
 
+import com.davidhabot.adenleaguerenewal.entity.Actor;
+import com.davidhabot.adenleaguerenewal.entity.PlayerSpriteSet;
+import com.davidhabot.adenleaguerenewal.entity.PlayerStatus;
 import com.davidhabot.adenleaguerenewal.exception.WrongCoordinateException;
 import com.davidhabot.adenleaguerenewal.game.Updatable;
 import com.davidhabot.adenleaguerenewal.game.UpdateManager;
@@ -7,11 +10,8 @@ import com.davidhabot.adenleaguerenewal.graphics.Renderable;
 import com.davidhabot.adenleaguerenewal.graphics.Screen;
 import com.davidhabot.adenleaguerenewal.graphics.Sprite;
 import com.davidhabot.adenleaguerenewal.input.GameKeyListener;
-import com.davidhabot.adenleaguerenewal.input.KeyBoardManager;
 import com.davidhabot.adenleaguerenewal.input.PlayerKeySet;
 import lombok.NonNull;
-
-import javax.swing.*;
 
 public class Player extends Actor implements GameKeyListener, Updatable, Renderable {
 
@@ -22,11 +22,16 @@ public class Player extends Actor implements GameKeyListener, Updatable, Rendera
         super(keyId, sprite, x, y, speed); //super class 인 Actor 의 생성자를 호출한다.
         //KeyBoardManager kb = new KeyBoardManager(frame, this,  keyId); //플레이어가 게임에서 사용할 키셋
         UpdateManager.addUpdatable(this);//해당 클래스를 업데이트 매니저에 넣는다.
-        Renderable.renderables.add(this);
+        Renderable.renderables.add(this);//해당 클래스를 렌더러블 리스트에 넣는다
     }
 
     //플레이어가 업데이트 될때의 로직
     public void update() {
+        status = PlayerStatus.MOVE_STAND;
+        if(anim < 1200)
+            anim++;
+        else
+            anim = 0;
         checkMovement();
         checkSkillCast();
     }
@@ -58,14 +63,17 @@ public class Player extends Actor implements GameKeyListener, Updatable, Rendera
     //checkSkillCast() - 이벤트가 일어난 키가 스킬발동에 관련된 키인지 확인한다.
     private void checkSkillCast() {
         //TODO 2020-11-28 07:02 AM | 스킬발동 관련 로직 처리 | David Habot
-        if(keyStatus[PlayerKeySet.SKILL_A.getIdx()]);
+        if(keyStatus[PlayerKeySet.SKILL_A.getIdx()])
+            status = PlayerStatus.CAST_SKILL;
     }
+
+    private int anim = 0;
 
     @Override
     public void render(@NonNull Screen screen) throws WrongCoordinateException {
         if(super.x < 0 || super.y < 0) throw new WrongCoordinateException("플레이어의 좌표가 음수입니다!");
-        int idx = 0;
-        if()
+        int[] idxs = getPlayerSprSet();
+        int idx = idxs[(anim/((int)(10/speed))) % idxs.length];
         int w = sprites[idx].getWidth();
         for(int y = 0; y < sprites[0].getHeight(); y++) {
             for(int x = 0; x < w; x++) {
@@ -75,6 +83,44 @@ public class Player extends Actor implements GameKeyListener, Updatable, Rendera
                             sprites[idx].getPixels()[x + y * w];
             }
         }
+    }
+
+    private int[] getPlayerSprSet() {
+        switch (status) {
+            case MOVE_STAND:
+                switch (dir) {
+                    case UP:
+                        return PlayerSpriteSet.STAND_UP.getIdx();
+                    case DOWN:
+                        return PlayerSpriteSet.STAND_DOWN.getIdx();
+                    case LEFT:
+                        return PlayerSpriteSet.STAND_LEFT.getIdx();
+                    case RIGHT:
+                        return PlayerSpriteSet.STAND_RIGHT.getIdx();
+                }
+                break;
+            case MOVE_WALK:
+            case MOVE_DASH:
+                //TODO 2020-12-06 08:09 AM | 추후 idx 관련 공식 설립 후 switch 를 연산식으로 바꿀것 | DavidHabot
+                switch (dir) {
+                    case UP:
+                        return PlayerSpriteSet.MOVE_UP.getIdx();
+                    case DOWN:
+                        return PlayerSpriteSet.MOVE_DOWN.getIdx();
+                    case LEFT:
+                        return PlayerSpriteSet.MOVE_LEFT.getIdx();
+                    case RIGHT:
+                        return PlayerSpriteSet.MOVE_RIGHT.getIdx();
+                }
+                break;
+            case CAST_SKILL:
+                //TODO
+                break;
+            case USE_ITEM:
+                //TODO
+                break;
+        }
+        return new int[]{0};
     }
 
     @Override

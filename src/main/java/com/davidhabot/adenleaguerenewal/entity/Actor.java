@@ -1,6 +1,5 @@
 package com.davidhabot.adenleaguerenewal.entity;
 
-import com.davidhabot.adenleaguerenewal.graphics.Renderable;
 import com.davidhabot.adenleaguerenewal.graphics.Sprite;
 import com.davidhabot.adenleaguerenewal.input.GameKeyListener;
 import com.davidhabot.adenleaguerenewal.input.KeyBoardManager;
@@ -14,6 +13,7 @@ public abstract class Actor implements Entity, GameKeyListener{
     @Getter
     protected int x, y; //액터의 현재 위치를 저장하는 int 형 변수
     protected Direction dir;
+    @Getter @Setter
     protected double speed; //액터의 속도(이동관련 처리로직에 영향울 준다)
 
     protected PlayerStatus status;
@@ -39,11 +39,12 @@ public abstract class Actor implements Entity, GameKeyListener{
     protected abstract void checkMovement();
 
     protected void move(int x, int y) {
+        status = PlayerStatus.MOVE_WALK;
         rotate(x, y);
         this.x += x; //x 축으로 speed * distance 만큼 이동한다
         this.y += y; //y 축으로 speed * distance 만큼 이동한다
         //move event 에 대한 로그를 출력한다
-        System.out.printf("Move Event 발생 x축으로 %d만큼, y축으로 %d만큼 이동합니다.\n플레이어 좌표 : (%d, %d)\n", x, y, this.x, this.y);
+        //System.out.printf("Move Event 발생 x축으로 %d만큼, y축으로 %d만큼 이동합니다.\n플레이어 좌표 : (%d, %d)\n", x, y, this.x, this.y);
     }
 
     protected void rotate(int x, int y) {
@@ -53,9 +54,11 @@ public abstract class Actor implements Entity, GameKeyListener{
             if (x > 0) rotate(Direction.RIGHT); //x가 양수일경우 오른쪽으로 이동한것이므로, 방향을 오른쪽으로 전환
         }
         //최적화를 위해 일단 y가 0 (음직이지 않음) 인지 검사
-        if(y != 0) {
+        else if(y != 0) {
             if(y < 0) rotate(Direction.UP); //y가 음수일경우 위쪽으로 이동한것이므로, 방향을 위쪽으로 전환
             if(y > 0) rotate(Direction.DOWN); //y가 양수일경우 아래쪽으로 이동한것이므로, 방향을 아래쪽으로 전환
+        } else {
+            return;
         }
     }
     protected void rotate(Direction dir, boolean isRelative) {
@@ -64,8 +67,10 @@ public abstract class Actor implements Entity, GameKeyListener{
         else rotate(dir);//dir 이 절대적인 방향일경우, 그대로 rotate 함수를 호출한다
     }
     public void rotate(Direction dir) {
-        System.out.printf("Rotate Event 발생 %s 에서 %s로 움직여 %s 로 방향으로 전환합니다.\n", this.dir, dir, this.dir.minus(dir));
-        this.dir = dir;//dir 값을 지정한다.
+        if(this.dir != dir) {
+            System.out.printf("Rotate Event 발생 %s 에서 %s로 움직여 %s 로 방향으로 전환합니다.\n", this.dir, dir, this.dir.minus(dir));
+            this.dir = dir;//dir 값을 지정한다.
+        }
     }
 
     //keyPressed 이벤트를 받아 처리한다

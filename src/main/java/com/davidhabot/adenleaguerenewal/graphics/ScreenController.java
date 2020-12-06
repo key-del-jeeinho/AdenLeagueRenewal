@@ -37,5 +37,33 @@ public class ScreenController extends Canvas {
     }
 
     private void renderUI(Graphics g) {
+        g.setColor(Color.white);
+        g.setFont(new Font("Verdana", Font.PLAIN, 15));
+        g.drawString("Score : " + Game.getScore(), 10, 20);
+        g.drawString("Time : " + Game.getGameTimer(), 10, 40);
+    }
+
+    public void showWin() {
+        BufferStrategy bs = getBufferStrategy();
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.BLUE);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.white);
+        g.setFont(new Font("Verdana", Font.BOLD, 60));
+        g.drawString("WIN", screen.getWidth()/2 - 60, screen.getHeight()/2);
+        renderUI(g);
+        bs.show();
+    }
+
+    public void showLose() {
+        BufferStrategy bs = getBufferStrategy();
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.white);
+        g.setFont(new Font("Verdana", Font.BOLD, 60));
+        g.drawString("LOSE", screen.getWidth()/2 - 60, screen.getHeight()/2);
+        renderUI(g);
+        bs.show();
     }
 }

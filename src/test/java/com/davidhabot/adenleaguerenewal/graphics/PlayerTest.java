@@ -1,6 +1,6 @@
 package com.davidhabot.adenleaguerenewal.graphics;
 
-import com.davidhabot.adenleaguerenewal.entity.Player;
+import com.davidhabot.adenleaguerenewal.entity.entities.Player;
 import org.junit.Test;
 
 import javax.swing.*;

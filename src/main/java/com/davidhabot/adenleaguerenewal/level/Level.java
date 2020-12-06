@@ -4,6 +4,8 @@ import com.davidhabot.adenleaguerenewal.game.Game;
 import com.davidhabot.adenleaguerenewal.game.Updatable;
 import com.davidhabot.adenleaguerenewal.graphics.Renderable;
 import com.davidhabot.adenleaguerenewal.level.tile.Tile;
+import com.davidhabot.adenleaguerenewal.level.tile.TileLoader;
+import com.davidhabot.adenleaguerenewal.level.tile.TileType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +15,7 @@ public abstract class Level implements Renderable, Updatable {
     protected int tileWidth;
     protected int tileHeight;
     protected int x, y; //플레이어의 이동에 따라 맵을 이동시키기 위한 맵의 좌측상단 모서리 좌표값
+    @Getter
     protected int[] level;
     @Getter @Setter
     private int width, height;

@@ -1,6 +1,9 @@
 package com.davidhabot.adenleaguerenewal.game;
 
+import lombok.Getter;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class Game implements Runnable{
 
@@ -17,6 +20,13 @@ public class Game implements Runnable{
     private long lastTime = System.nanoTime(); // lastTime 이란 변수를 현재 시간(단위 : nano)으로 초기화
     private long timer = System.currentTimeMillis(); //timer 이란 변수를 현재 시간(단위 : milli)으로 초기화
     private final double ns = 1000000000.0 / 60.0;
+    @Getter
+    private static int score = 0, gameTimer = 60;
+
+    public static void addScore() {
+        score++;
+        System.out.println("score : " + score);
+    }
 
     public void start() {
         this.isRunning = true;
@@ -49,6 +59,24 @@ public class Game implements Runnable{
             data.getScreenControl().renderScreen();
             frames++;
             checkTimer();
+
+            //점수 로직
+            if(score >= 15) {
+                System.out.println("게임이 끝났습니다!");
+                while(true)
+                    data.getScreenControl().showWin();
+            }else if(score >= 10) {
+                data.getPlayer().setSpeed(2);
+            }else if(score >= 5) {
+                data.getPlayer().setSpeed(1.5);
+            }
+
+            //타이머 로직
+            if(gameTimer <= 0)
+                while(true)
+                    data.getScreenControl().showLose();
+            else if(gameTimer <= 10)
+                data.getPlayer().setSpeed(10);
         }
     }
 
@@ -59,6 +87,7 @@ public class Game implements Runnable{
             String formattedInfo = formatTimerInfo(updates, frames);
             initTimer();
             printTitle(formattedInfo);
+            gameTimer--;
         }
     }
 
@@ -79,10 +108,8 @@ public class Game implements Runnable{
         Game game = new Game();
         data.getFrame().setResizable(false);
         data.getFrame().add(data.getScreenControl());
-        System.out.println(data.getFrame().getKeyListeners().length);
         data.getFrame().addKeyListener(data.getPlayer().getKb());
         data.getFrame().requestFocus();
-        System.out.println(data.getFrame().getKeyListeners().length);
         data.getFrame().pack();
         data.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         data.getFrame().setLocationRelativeTo(null);

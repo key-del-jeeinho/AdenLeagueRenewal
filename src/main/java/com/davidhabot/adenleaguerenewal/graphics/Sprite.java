@@ -11,7 +11,7 @@ public class Sprite{
     private int posX;
     private int posY; //스프라이트 시트에서 해당 스프라이트가 존재하는 좌표값(행렬)
     @Getter
-    private int[] pixels;
+    private final int[] pixels;
     private SpriteSheet sheet;
 
     public Sprite(int size, int x, int y, SpriteSheet sheet) {
@@ -28,16 +28,6 @@ public class Sprite{
         loadSprite();
     }
 
-    private void loadSprite() {
-        int posX = (this.posX*sheet.getCELL_SIZE());
-        int posY = (this.posY*sheet.getCELL_SIZE());
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                pixels[x + y * height] = sheet.getSheet()[(x + posX) + (y + posY) * sheet.getHEIGHT()];
-            }
-        }
-    }
-
     public Sprite(int width, int height) {
         //스프라이트의 크기를 size 로 초기화한다
         this.width = width;
@@ -48,6 +38,17 @@ public class Sprite{
     public Sprite(int size, Color color) {
         this(size, size);
         setColor(color.getRGB());
+    }
+
+    private void loadSprite() {
+        int posX = (this.posX*sheet.getCELL_SIZE());
+        int posY = (this.posY*sheet.getCELL_SIZE());
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                pixels[x + y * height] = sheet.getSheet()[(x + posX) + (y + posY) * sheet.getHEIGHT()];
+            }
+        }
     }
 
     private void setColor(int color) {
